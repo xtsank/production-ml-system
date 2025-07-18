@@ -32,8 +32,13 @@ class BaseModel(ABC):
         allowed_dtypes = ['int64', 'float64', 'object', 'category', 'bool']
         self.data = self.data.select_dtypes(include=allowed_dtypes)
 
-        self.numeric_features = self.data.select_dtypes(include=['int64', 'float64']).columns.tolist()
-        self.categorical_features = self.data.select_dtypes(include=['object', 'category', 'bool']).columns.tolist()
+        num_columns = \
+            self.data.select_dtypes(include=['int64', 'float64'])
+        self.numeric_features = num_columns.columns.tolist()
+
+        cat_columns = \
+            self.data.select_dtypes(include=['object', 'category', 'bool'])
+        self.categorical_features = cat_columns.columns.tolist()
 
         for col in self.numeric_features:
             if self.data[col].nunique() < MAX_CATEGORIES:

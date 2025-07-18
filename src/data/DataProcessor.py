@@ -1,7 +1,10 @@
 import pandas as pd
 import os
 
-from src.settings import UPLOAD_DIR, MAX_FILE_SIZE, ALLOWED_EXTENSIONS, MAX_CATEGORIES
+from src.settings import (UPLOAD_DIR,
+                          MAX_FILE_SIZE,
+                          ALLOWED_EXTENSIONS,
+                          MAX_CATEGORIES)
 
 
 class DataProcessor:
@@ -56,7 +59,6 @@ class DataProcessor:
 
         await self.file.seek(0)
 
-
     def _exists(self):
         return os.path.exists(os.path.join(UPLOAD_DIR, self.filename))
 
@@ -80,8 +82,13 @@ class DataProcessor:
             'num_categorical': 0
         }
 
-        numeric_features = self.data.select_dtypes(include=['int64', 'float64']).columns.tolist()
-        categorical_features = self.data.select_dtypes(include=['object', 'category', 'bool']).columns.tolist()
+        numeric_columns = \
+            self.data.select_dtypes(include=['int64', 'float64'])
+        numeric_features = numeric_columns.columns.tolist()
+
+        categorical_columns = \
+            self.data.select_dtypes(include=['object', 'category', 'bool'])
+        categorical_features = categorical_columns.columns.tolist()
 
         for col in numeric_features[:]:
             if self.data[col].nunique() < MAX_CATEGORIES:

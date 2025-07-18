@@ -45,6 +45,19 @@ python3 -m src.main
 
 - GET /download_model - загрузка обученной модели
 
+## Качество кода
+
+Проект проходит следующие проверки:
+
+[![Flake8](https://img.shields.io/badge/flake8-checked-brightgreen?logo=python)](https://flake8.pycqa.org/)
+[![Bandit](https://img.shields.io/badge/bandit-checked-yellow?logo=security)](https://bandit.readthedocs.io/)
+
+Запуск проверок:
+```bash
+flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+bandit -r src/ -ll
+```
+
 ## Технологии
 - Python: FastAPI, pandas, scikit-learn, catboost
 

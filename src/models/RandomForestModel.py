@@ -22,7 +22,8 @@ class RandomForestModel(BaseModel):
 
         self.data = self.data.drop(columns=[target_column_name])
 
-        self.data = pd.get_dummies(self.data, columns=self.categorical_features)
+        self.data = \
+            pd.get_dummies(self.data, columns=self.categorical_features)
 
         self.data[target_column_name] = target_column
 
@@ -30,4 +31,3 @@ class RandomForestModel(BaseModel):
         return RandomForestRegressor(
             random_state=42
         )
-

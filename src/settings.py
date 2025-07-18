@@ -11,9 +11,8 @@ MODELS_DIR = "./models"
 
 templates = Jinja2Templates(directory="templates")
 
+
 def make_dirs():
     os.makedirs(PLOTS_DIR, exist_ok=True)
     os.makedirs(UPLOAD_DIR, exist_ok=True)
     os.makedirs(MODELS_DIR, exist_ok=True)
-
-

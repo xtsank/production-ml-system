@@ -12,7 +12,8 @@ class CatBoostModel(BaseModel):
         self.detect_categories()
 
         scaler = StandardScaler()
-        self.data[self.numeric_features] = scaler.fit_transform(self.data[self.numeric_features])
+        self.data[self.numeric_features] = \
+            scaler.fit_transform(self.data[self.numeric_features])
 
         for col in self.numeric_features:
             self.data[col] = self.data[col].fillna(-999)

@@ -31,10 +31,13 @@ class ResultsVisualizer:
         plt.figure(figsize=(10, 6))
         indices = np.argsort(importances)[::-1]
         plt.bar(range(len(importances)), importances[indices])
-        plt.xticks(range(len(importances)), [feature_names[i] for i in indices], rotation=90)
+        plt.xticks(
+            range(len(importances)),
+            [feature_names[i] for i in indices],
+            rotation=90
+        )
         plt.title('Важность признаков')
         plt.tight_layout()
 
         plt.savefig(filename, bbox_inches='tight', dpi=300)
         plt.close()
-

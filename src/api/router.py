@@ -13,11 +13,12 @@ cb_model = CatBoostModel()
 rf_model = RandomForestModel()
 res_visualizer = ResultsVisualizer()
 
+
 @main_router.get("/")
 async def root(request: Request):
     return templates.TemplateResponse(
         "index.html",
-        { "request": request }
+        {"request": request}
     )
 
 
@@ -29,16 +30,17 @@ async def upload_file(file: UploadFile = File(...)):
 
     if errors:
         return JSONResponse(status_code=400,
-                            content = {"errors": errors})
+                            content={"errors": errors})
 
     await data_processor.save_local()
 
     return {"status": "success", "file": file.filename}
 
+
 @main_router.get("/analyze/{filename}")
 async def analyze(filename: str, request: Request):
     data_processor.set_filename(filename)
-    raw_data = data_processor.read() 
+    raw_data = data_processor.read()
 
     if raw_data is None:
         return JSONResponse(
@@ -59,6 +61,7 @@ async def analyze(filename: str, request: Request):
         "analysis.html",
         context=context
     )
+
 
 @main_router.post("/train/{filename}")
 async def train(filename: str):
@@ -85,10 +88,12 @@ async def result(filename: str, request: Request):
 
         res_visualizer.add_data(plot_data)
 
-        actual_vs_predicted_filename = PLOTS_DIR + f"/{model.model_name}_actual_vs_predicted.png"
+        actual_vs_predicted_filename = PLOTS_DIR + \
+            f"/{model.model_name}_actual_vs_predicted.png"
         res_visualizer.plot_actual_vs_predicted(actual_vs_predicted_filename)
 
-        feature_importance_filename = PLOTS_DIR + f"/{model.model_name}_feature_importance.png"
+        feature_importance_filename = PLOTS_DIR + \
+            f"/{model.model_name}_feature_importance.png"
         res_visualizer.plot_feature_importance(feature_importance_filename)
 
         results.append({
@@ -109,6 +114,7 @@ async def result(filename: str, request: Request):
         }
     )
 
+
 @main_router.get("/download_model/{model_name}")
 async def download_model(model_name: str):
     model_path = MODELS_DIR + f"/{model_name}.pkl"
@@ -123,9 +129,3 @@ async def download_model(model_name: str):
             status_code=404,
             content={"error": "File not found"}
         )
-
-
-
-
-
-
